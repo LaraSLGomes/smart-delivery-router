@@ -39,8 +39,8 @@ Para cumprir os requisitos obrigatórios do projeto, o sistema conta com:
 ## Tecnologias Utilizadas
 
 - **Back-end:** Node.js (JavaScript)
-- **Front-end:** HTML, CSS (Tailwind CSS/Bootstrap), JavaScript
-- **Visualização:** Vis.js (ou Cytoscape.js)
+- **Front-end:** HTML, CSS, JavaScript
+- **Visualização:** Vis.js 
 - **Modelagem de Dados:** JSON / Lista de Adjacência
 
 ---
