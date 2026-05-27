@@ -28,7 +28,7 @@ export class Grafo {
         this.vertices = new Map();
         this.listaAdjacencia = new Map();
     }
-=
+    
     adicionarVertice(id, lat, lon) {
         if (!this.vertices.has(id)) {
             this.vertices.set(id, new Vertice(id, lat, lon));
@@ -37,7 +37,7 @@ export class Grafo {
     }
 
     calcularHaversine(lat1, lon1, lat2, lon2) {
-        const R = 6371e3; // Raio da Terra em metros
+        const R = 6371e3; 
         const phi1 = (lat1 * Math.PI) / 180;
         const phi2 = (lat2 * Math.PI) / 180;
         const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
