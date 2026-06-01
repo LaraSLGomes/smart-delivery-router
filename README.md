@@ -50,7 +50,6 @@ Para cumprir os requisitos obrigatórios do projeto, o sistema conta com:
 ### Pré-requisitos
 Antes de começar, você vai precisar ter instalado em sua máquina:
 - [Node.js](https://nodejs.org/en/) (Versão 18 ou superior)
-- Um navegador web moderno (Chrome, Edge, Firefox, Safari)
 
 ### 1. Clonar o Repositório
 ```bash
