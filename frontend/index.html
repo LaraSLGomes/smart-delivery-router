@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Delivery Router - Logística Urbana</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+
+    <div id="painel-controle">
+        <div class="cabecalho">
+            <h2>Smart Delivery Router</h2>
+            <p>Otimização de rotas de entrega e análise topológica do tráfego do bairro Presidente Kennedy.</p>
+        </div>
+        
+        <hr>
+        
+        <div class="campo-busca">
+            <label for="select-origem">Ponto de Origem (Hub/Motoboy)</label>
+            <select id="select-origem">
+                <option value="">Carregando cruzamentos...</option>
+            </select>
+        </div>
+
+        <div class="campo-busca">
+            <label for="select-destino">Destino da Entrega (Cliente)</label>
+            <select id="select-destino">
+                <option value="">Carregando cruzamentos...</option>
+            </select>
+        </div>
+
+        <div class="botoes-grupo">
+            <button id="btn-calcular">Calcular Melhor Rota (Dijkstra)</button>
+            <button id="btn-bfs">Mapear Cobertura (BFS)</button>
+        </div>
+
+        <div id="resultado"></div>
+    </div>
+
+    <div id="mapa-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

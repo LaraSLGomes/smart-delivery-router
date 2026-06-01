@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+#painel-controle {
+    width: 340px;
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 4px 0 6px -1px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+}
+
+.cabecalho h2 {
+    font-size: 20px;
+    color: #1e293b;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.cabecalho p {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #f1f5f9;
+}
+
+.campo-busca {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #f8fafc;
+    font-size: 14px;
+    font-family: monospace; 
+    color: #334155;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+select:focus {
+    border-color: #3b82f6;
+    background-color: #ffffff;
+}
+
+
+.botoes-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#btn-calcular {
+    background-color: #ef4444; 
+    color: #ffffff;
+}
+
+#btn-calcular:hover {
+    background-color: #dc2626;
+    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
+}
+
+#btn-bfs {
+    background-color: #0ea5e9;
+    color: #ffffff;
+}
+
+#btn-bfs:hover {
+    background-color: #0284c7;
+    box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.2);
+}
+
+
+#resultado {
+    padding: 14px;
+    border-radius: 6px;
+    border-left: 4px solid #cbd5e1;
+    font-size: 13px;
+    line-height: 1.5;
+    display: none;
+}
+
+
+#mapa-container {
+    flex-grow: 1;
+    height: 100%;
+    background-color: #f1f5f9;
+    cursor: grab;
+}
+
+#mapa-container:active {
+    cursor: grabbing;
+}
