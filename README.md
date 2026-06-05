@@ -1,8 +1,12 @@
 # Smart Delivery Router
 
-Um sistema computacional focado em **Roteirização Inteligente de Delivery** e análise de fluxo logístico urbano, desenvolvido como projeto prático para a disciplina de Grafos na **Universidade de Fortaleza (UNIFOR)**.
+Um sistema computacional focado em **Roteirização Inteligente de Delivery** e análise de fluxo logístico urbano, desenvolvido como projeto prático para a disciplina de Resolução de Problemas em Grafos na **Universidade de Fortaleza (UNIFOR)**.
 
-O projeto utiliza conceitos avançados de estruturas de dados para modelar a malha viária de uma região urbana, contendo **mais de 100 cruzamentos (vértices) e 100 vias de conexão (arestas)**, permitindo calcular rotas de entrega otimizadas em tempo real e identificar gargalos na infraestrutura de tráfego.
+**Autores:**
+- Lara Stephanny Lima Gomes (Matrícula: 2410494)
+- Matheus Martins da Costa Lima (Matrícula: 2417153)
+
+O projeto utiliza conceitos avançados de estruturas de dados para modelar a malha viária autêntica do bairro Presidente Kennedy (Fortaleza-CE). Consumindo dados reais do OpenStreetMap, o sistema gerencia **mais de 100 cruzamentos (vértices) e vias de conexão (arestas)**, permitindo calcular rotas de entrega otimizadas e identificar gargalos na infraestrutura de tráfego.
 
 ---
 
@@ -10,68 +14,70 @@ O projeto utiliza conceitos avançados de estruturas de dados para modelar a mal
 
 O projeto foi desenvolvido adotando uma arquitetura **Cliente-Servidor (Desacoplada)**, dividida em duas camadas principais:
 
-1. **Back-end (Servidor - Node.js):** - Responsável pela leitura e processamento da base de dados do mapa.
+1. **Back-end (Servidor - Node.js):**
+   - Responsável pelo *parsing* dinâmico do arquivo XML geográfico (`map.osm`).
    - Contém a modelagem puramente Orientada a Objetos (POO) do Grafo.
    - Centraliza a execução dos algoritmos clássicos de **Dijkstra** e **BFS**.
    - Expõe os resultados analíticos e as rotas calculadas através de uma API REST local em formato JSON.
 
 2. **Front-end (Cliente - Web/JS):**
-   - Uma interface web moderna e responsiva construída com HTML, CSS e JavaScript.
+   - Interface web moderna e responsiva construída com HTML, CSS e JavaScript Vanilla.
    - Consome a API do servidor via requisições assíncronas (`fetch`).
-   - Utiliza a biblioteca **Vis.js** para renderizar o grafo de forma totalmente interativa e visual, destacando o caminho mínimo calculado na tela.
+   - Utiliza a biblioteca **Leaflet** para renderizar o grafo de forma totalmente interativa sobre o mapa real, destacando as rotas precisas baseadas em latitude e longitude.
 
 ---
 
 ## Algoritmos & Análises Implementadas
 
-Para cumprir os requisitos obrigatórios do projeto, o sistema conta com:
+Para cumprir os requisitos obrigatórios do edital, o sistema conta com:
 
-* **Algoritmo de Dijkstra (Caminho Mínimo):** Recebe o ponto de partida (ex: Centro de Distribuição) e o destino (Cliente), calculando a rota mais rápida ponderada pela distância/tempo, respeitando o direcionamento de vias (ruas de mão única).
-* **Busca em Largura (BFS):** Utilizada para delimitar raios de proximidade geográfica, determinando quais clientes ou pontos de interesse estão a uma distância máxima de "X cruzamentos" a partir de um nó central.
+* **Algoritmo de Dijkstra (Caminho Mínimo):** Recebe o ponto de partida (Hub logístico) e o destino (Cliente), calculando a rota mais rápida. O peso das arestas é a **distância real em metros** calculada pela fórmula de Haversine, respeitando rigorosamente o direcionamento das vias (ruas de mão única e dupla).
+* **Busca em Largura (BFS):** Utilizada para delimitar a área de cobertura logística, determinando quais clientes estão a uma distância máxima de *N* cruzamentos a partir de um nó central.
 
 ### Análises Topológicas do Grafo:
-1. **Cálculo de Grau dos Vértices:** Identifica os cruzamentos com maior número de conexões de entrada e saída (Hubs urbanos/avenidas principais).
-2. **Existência de Ciclos:** Avalia a presença de rotas alternativas e retornos na cidade para garantir a resiliência do fluxo em caso de bloqueio de vias.
-3. **Conectividade Parcial / Forte Conectividade:** Analisa se o planejamento de mãos de trânsito não isolou nenhuma região ou quarteirão do restante do mapa.
+1. **Cálculo de Grau dos Vértices:** Identifica os cruzamentos com maior número de conexões de entrada e saída (Hubs urbanos e potenciais gargalos).
+2. **Existência de Ciclos (DFS):** Avalia a presença de rotas alternativas e quarteirões de retorno para garantir a resiliência do fluxo em caso de bloqueio de vias.
+3. **Conectividade:** Analisa se o planejamento de mãos de trânsito não gerou "ilhas isoladas", impossibilitando o acesso de veículos a determinadas áreas.
 
 ---
 
 ## Tecnologias Utilizadas
 
-- **Back-end:** Node.js (JavaScript)
-- **Front-end:** HTML, CSS, JavaScript
-- **Visualização:** Vis.js 
-- **Modelagem de Dados:** JSON / Lista de Adjacência
+- **Back-end:** Node.js, Express, fast-xml-parser
+- **Front-end:** HTML5, CSS3, JavaScript
+- **Visualização Cartográfica:** Leaflet.js
+- **Base de Dados:** OpenStreetMap (.osm) estruturado via Lista de Adjacência
 
 ---
 
 ## Como Executar o Projeto
 
 ### Pré-requisitos
-Antes de começar, você vai precisar ter instalado em sua máquina:
-- [Node.js](https://nodejs.org/en/) (Versão 18 ou superior)
+- Node.js (Versão 18 ou superior) instalada na máquina.
+- Garantir que o arquivo extraído `map.osm` está localizado na pasta `back-end/` do projeto.
 
-### 1. Clonar o Repositório
-```bash
-git clone [https://github.com/LaraSLGomes/smart-delivery-router](https://github.com/LaraSLGomes/smart-delivery-router)
-cd smart-delivery-router
+### Passo a Passo
 
-cd backend
+1. **Clonar o Repositório e Instalar Dependências**
+
+git clone https://github.com/LaraSLGomes/smart-delivery-router
+cd smart-delivery-router/back-end
 npm install
-npm start
 
-# Em seguida, abra no navegador:
-http://localhost:3000
 
-# Se preferir usar o Live Server do VS Code:
-# abra o arquivo raiz index.html do projeto ou acesse:
-# http://localhost:5500/index.html
-```
-## Exportação de dados
-O backend também oferece um endpoint para exportar a malha viária:
-- JSON: `/api/export?format=json`
-- GeoJSON: `/api/export?format=geojson`
+2. **Iniciar o Servidor e Construir o Grafo**
 
-Isso permite baixar o grafo e visualizá-lo em ferramentas GIS ou importar em outros sistemas.
+node server.js
 
-> Se o servidor Node.js não estiver disponível no momento, o frontend também suporta um modo de desenvolvimento local com dados estáticos, permitindo testar a interface, o desenho do mapa e as funcionalidades de rota/BFS diretamente no navegador.
+O terminal exibirá o relatório de parsing comprovando a extração dos vértices e arestas reais da malha urbana.
+
+3. **Acessar a Interface Gráfica**
+Abra o seu navegador e acesse a porta liberada pelo servidor estático:
+ http://localhost:3000
+
+---
+
+## 🗺️ Exportação de Dados Geográficos
+O backend oferece rotas dedicadas para exportar a malha viária processada, permitindo a sua visualização em ferramentas GIS (Sistemas de Informação Geográfica) externas:
+- **JSON Bruto:** http://localhost:3000/api/export?format=json
+- **GeoJSON:** http://localhost:3000/api/export?format=geojson
