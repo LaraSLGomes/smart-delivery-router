@@ -1,0 +1,13 @@
+{
+  "name": "smart-delivery-router-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Smart Delivery Router using OpenStreetMap base.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.4"
+  }
+}

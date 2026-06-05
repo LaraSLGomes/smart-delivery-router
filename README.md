@@ -53,5 +53,25 @@ Antes de começar, você vai precisar ter instalado em sua máquina:
 
 ### 1. Clonar o Repositório
 ```bash
-git clone [https://github.com/SEU-USUARIO/smart-delivery-router.git](https://github.com/SEU-USUARIO/smart-delivery-router.git)
+git clone [https://github.com/LaraSLGomes/smart-delivery-router](https://github.com/LaraSLGomes/smart-delivery-router)
 cd smart-delivery-router
+
+cd backend
+npm install
+npm start
+
+# Em seguida, abra no navegador:
+http://localhost:3000
+
+# Se preferir usar o Live Server do VS Code:
+# abra o arquivo raiz index.html do projeto ou acesse:
+# http://localhost:5500/index.html
+```
+## Exportação de dados
+O backend também oferece um endpoint para exportar a malha viária:
+- JSON: `/api/export?format=json`
+- GeoJSON: `/api/export?format=geojson`
+
+Isso permite baixar o grafo e visualizá-lo em ferramentas GIS ou importar em outros sistemas.
+
+> Se o servidor Node.js não estiver disponível no momento, o frontend também suporta um modo de desenvolvimento local com dados estáticos, permitindo testar a interface, o desenho do mapa e as funcionalidades de rota/BFS diretamente no navegador.

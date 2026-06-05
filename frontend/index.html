@@ -6,8 +6,9 @@
     <title>Smart Delivery Router - Logística Urbana</title>
     
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+ePlH2Yg9Lz5SVBIVdS0Z1jzl6buew+Tt1v5rQb2A=" crossorigin="" />
     
-    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1j7kWyvPWFjL87YFKQ5GqRhQr5vr2V0bMlS4S2Ck=" crossorigin=""></script>
 </head>
 <body>
 
@@ -16,6 +17,8 @@
             <h2>Smart Delivery Router</h2>
             <p>Otimização de rotas de entrega e análise topológica do tráfego do bairro Presidente Kennedy.</p>
         </div>
+
+        <div id="status-banner" class="status-banner hidden"></div>
         
         <hr>
         
@@ -33,11 +36,30 @@
             </select>
         </div>
 
+        <div class="campo-busca">
+            <label for="input-limite">Limite BFS (número de cruzamentos)</label>
+            <input id="input-limite" type="number" min="1" max="10" value="3" />
+        </div>
+
         <div class="botoes-grupo">
             <button id="btn-calcular">Calcular Melhor Rota (Dijkstra)</button>
             <button id="btn-bfs">Mapear Cobertura (BFS)</button>
+            <button id="btn-analises">Atualizar Análises</button>
+            <button id="btn-export">Exportar GeoJSON</button>
+            <button id="btn-limpar">Limpar Mapa</button>
         </div>
 
+        <div class="legenda">
+            <h3>Legenda</h3>
+            <ul>
+                <li><span class="legenda-cor legenda-rota"></span> Rota calculada (Dijkstra)</li>
+                <li><span class="legenda-cor legenda-bfs"></span> Cobertura BFS</li>
+                <li><span class="legenda-cor legenda-no"></span> Cruzamentos</li>
+                <li><span class="legenda-cor legenda-aresta"></span> Vias direcionais</li>
+            </ul>
+        </div>
+
+        <div id="analises-panel" class="analises-panel"></div>
         <div id="resultado"></div>
     </div>
 
