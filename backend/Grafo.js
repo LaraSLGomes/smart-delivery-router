@@ -3,7 +3,7 @@ class Vertice {
         this.id = id;
         this.lat = parseFloat(lat);
         this.lon = parseFloat(lon);
-        this.nome = `Cruzamento ID ${id}`;
+        this.nome = `Cruzamento ${id}`;
     }
 }
 
@@ -42,25 +42,16 @@ export class Grafo {
         const phi2 = (lat2 * Math.PI) / 180;
         const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
         const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
-
-        const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
-                  Math.cos(phi1) * Math.cos(phi2) *
-                  Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
-        
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c; 
+        const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
     }
 
     adicionarAresta(origemId, destinoId) {
         if (!this.vertices.has(origemId) || !this.vertices.has(destinoId)) return;
-
         const vOrigem = this.vertices.get(origemId);
         const vDestino = this.vertices.get(destinoId);
-
         const pesoMetros = this.calcularHaversine(vOrigem.lat, vOrigem.lon, vDestino.lat, vDestino.lon);
-
-        const novaAresta = new Aresta(origemId, destinoId, pesoMetros);
-        this.listaAdjacencia.get(origemId).push(novaAresta);
+        this.listaAdjacencia.get(origemId).push(new Aresta(origemId, destinoId, pesoMetros));
     }
 
     calcularDijkstra(origem, destino) {
@@ -78,9 +69,7 @@ export class Grafo {
         while (naoVisitados.size > 0) {
             let u = null;
             for (let v of naoVisitados) {
-                if (u === null || distancias[v] < distancias[u]) {
-                    u = v;
-                }
+                if (u === null || distancias[v] < distancias[u]) u = v;
             }
 
             if (distancias[u] === Infinity || u === destino) break;
@@ -122,7 +111,7 @@ export class Grafo {
         while (fila.length > 0) {
             const [atual, nivel] = fila.shift();
             
-            if (atual !== origen) {
+            if (atual !== origem) { // Correção do erro de sintaxe aqui
                 alcance.push({ vertice: atual, cruzamentosDistancia: nivel });
             }
 
@@ -144,19 +133,11 @@ export class Grafo {
         for (let [id, arestas] of this.listaAdjacencia.entries()) {
             const grauSaida = arestas.length;
             let grauEntrada = 0;
-
             for (let [_, todasArestas] of this.listaAdjacencia.entries()) {
                 if (todasArestas.some(a => a.destino === id)) grauEntrada++;
             }
-
-            relatorio.push({ 
-                Cruzamento_ID: id, 
-                Vias_Entrada: grauEntrada, 
-                Vias_Saida: grauSaida, 
-                Conexoes_Totais: grauEntrada + grauSaida 
-            });
+            relatorio.push({ Cruzamento_ID: id, Vias_Entrada: grauEntrada, Vias_Saida: grauSaida, Conexoes_Totais: grauEntrada + grauSaida });
         }
-
         return relatorio.sort((a, b) => b.Conexoes_Totais - a.Conexoes_Totais).slice(0, 5);
     }
 
@@ -167,7 +148,6 @@ export class Grafo {
         const dfs = (v) => {
             visitados.add(v);
             pilhaRecursao.add(v);
-
             const vizinhos = this.listaAdjacencia.get(v) || [];
             for (let aresta of vizinhos) {
                 if (!visitados.has(aresta.destino)) {
@@ -176,7 +156,6 @@ export class Grafo {
                     return true; 
                 }
             }
-
             pilhaRecursao.delete(v);
             return false;
         };
@@ -190,42 +169,11 @@ export class Grafo {
     }
 
     verificarConectividade() {
-        const verticesTotais = this.listaAdjacencia.size;
-        if (verticesTotais === 0) return "Grafo Vazio";
-
+        if (this.listaAdjacencia.size === 0) return "Grafo Vazio";
         const primeiroNode = this.listaAdjacencia.keys().next().value;
         const totalAlcancados = this.executarBFS(primeiroNode, Infinity).length + 1;
-
-        return totalAlcancados === verticesTotais 
-            ? `Forte Conectividade Detectada (${totalAlcancados}/${verticesTotais} cruzamentos integrados)`
-            : `Conectividade Parcial (${totalAlcancados}/${verticesTotais} alcançáveis a partir do Hub principal)`;
-    }
-
-    exportarParaVisJS() {
-        const nodes = [];
-        const edges = [];
-
-        for (let [id, v] of this.vertices.entries()) {
-            nodes.push({ 
-                id: id, 
-                label: id.toString().slice(-4), 
-                title: `Cruzamento Real (Lat: ${v.lat.toFixed(4)}, Lon: ${v.lon.toFixed(4)})` 
-            });
-        }
-
-        for (let [origem, arestas] of this.listaAdjacencia.entries()) {
-            for (let aresta of arestas) {
-                edges.push({
-                    from: origem,
-                    to: aresta.destino,
-                    label: `${aresta.peso}m`,
-                    arrows: 'to', 
-                    color: { color: '#94a3b8' },
-                    width: 1
-                });
-            }
-        }
-
-        return { nodes, edges };
+        return totalAlcancados === this.listaAdjacencia.size 
+            ? "Forte Conectividade Detectada"
+            : "Conectividade Parcial (Mão única isola vias)";
     }
 }

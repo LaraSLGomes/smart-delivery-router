@@ -4,65 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Delivery Router - Logística Urbana</title>
-    
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+ePlH2Yg9Lz5SVBIVdS0Z1jzl6buew+Tt1v5rQb2A=" crossorigin="" />
-    
-    <script type="text/javascript" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1j7kWyvPWFjL87YFKQ5GqRhQr5vr2V0bMlS4S2Ck=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 </head>
 <body>
-
     <div id="painel-controle">
         <div class="cabecalho">
             <h2>Smart Delivery Router</h2>
-            <p>Otimização de rotas de entrega e análise topológica do tráfego do bairro Presidente Kennedy.</p>
+            <p>Otimização de rotas de entrega e análise do bairro Presidente Kennedy.</p>
         </div>
 
         <div id="status-banner" class="status-banner hidden"></div>
-        
         <hr>
         
         <div class="campo-busca">
-            <label for="select-origem">Ponto de Origem (Hub/Motoboy)</label>
-            <select id="select-origem">
-                <option value="">Carregando cruzamentos...</option>
-            </select>
+            <label>Ponto de Origem</label>
+            <select id="select-origem"><option value="">Carregando...</option></select>
         </div>
 
         <div class="campo-busca">
-            <label for="select-destino">Destino da Entrega (Cliente)</label>
-            <select id="select-destino">
-                <option value="">Carregando cruzamentos...</option>
-            </select>
+            <label>Destino</label>
+            <select id="select-destino"><option value="">Carregando...</option></select>
         </div>
 
         <div class="campo-busca">
-            <label for="input-limite">Limite BFS (número de cruzamentos)</label>
+            <label>Raio (BFS)</label>
             <input id="input-limite" type="number" min="1" max="10" value="3" />
         </div>
 
         <div class="botoes-grupo">
-            <button id="btn-calcular">Calcular Melhor Rota (Dijkstra)</button>
-            <button id="btn-bfs">Mapear Cobertura (BFS)</button>
-            <button id="btn-analises">Atualizar Análises</button>
-            <button id="btn-export">Exportar GeoJSON</button>
+            <button id="btn-calcular">Calcular Rota</button>
+            <button id="btn-bfs">Mapear Cobertura</button>
+            <button id="btn-analises">Ver Análises</button>
             <button id="btn-limpar">Limpar Mapa</button>
         </div>
 
-        <div class="legenda">
-            <h3>Legenda</h3>
-            <ul>
-                <li><span class="legenda-cor legenda-rota"></span> Rota calculada (Dijkstra)</li>
-                <li><span class="legenda-cor legenda-bfs"></span> Cobertura BFS</li>
-                <li><span class="legenda-cor legenda-no"></span> Cruzamentos</li>
-                <li><span class="legenda-cor legenda-aresta"></span> Vias direcionais</li>
-            </ul>
-        </div>
-
-        <div id="analises-panel" class="analises-panel"></div>
-        <div id="resultado"></div>
+        <div id="analises-panel" class="analises-panel" style="display:none;"></div>
+        <div id="resultado" style="display:none;"></div>
     </div>
-
     <div id="mapa-container"></div>
 
     <script src="app.js"></script>
